@@ -1,0 +1,23 @@
+{
+  "name": "video-cms-telegram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "fastify": "^2.13.0",
+    "fastify-amqp": "^0.3.0",
+    "telegraf": "^3.37.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-PavelKg:PavelKg/Video-CMS-Telegram.git"
+  },
+  "author": "Pavel",
+  "license": "ISC"
+}
