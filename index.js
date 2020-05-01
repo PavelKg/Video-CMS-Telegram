@@ -3,15 +3,18 @@ const Markup = require('telegraf/markup')
 const Extra = require('telegraf/extra')
 const fastifyApp = require('fastify')()
 
+console.log(process.env)
+
 require('dotenv').config()
 const {
   PORT = 8443,
   BOTS,
-  DOMEN = 'binas79.synology.me',
+  DOMEN = 'binas79.synology.me:8443',
   AMQP_HOST,
   AMQP_PORT,
   AMQP_USER,
-  AMQP_PASS
+  AMQP_PASS,
+  NODE_ENV
 } = process.env
 
 fastifyApp
@@ -89,8 +92,9 @@ bot.on(['text', 'sticker', 'photo'], (ctx) => {
 })
 
 fastifyApp.use(bot.webhookCallback('/secretpath'))
-console.log(`https://${DOMEN}:${PORT}/secretpath`)
-bot.telegram.setWebhook(`https://${DOMEN}:${PORT}/secretpath`)
+console.log(`https://${DOMEN}/secretpath`)
+
+bot.telegram.setWebhook(`https://${DOMEN}/secretpath`)
 
 fastifyApp.listen(PORT, '0.0.0.0', () => {
   console.log(`Example app listening on port ${PORT}!`)
