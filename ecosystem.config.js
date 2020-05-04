@@ -2,25 +2,29 @@ module.exports = {
   apps: [
     {
       name: 'Video-CMS-Telegram',
-      script: 'index.js',
+      script: 'server.js',
       env: {
         NODE_ENV: 'emphy',
         PORT: 8443,
+        BOT_NAME: 'vcmsbot',
         DOMEN: 'tele.pepex.kg'
       },
       env_local: {
         NODE_ENV: 'local',
         PORT: 8443,
-        DOMEN: 'binas79.synology.me'
+        BOT_NAME: 'vcmstestbot',
+        DOMEN: 'binas79.synology.me:8443'
       },
       env_production: {
         NODE_ENV: 'production',
         PORT: 8443,
+        BOT_NAME: 'vcmsbot',
         DOMEN: 'tele.pepex.kg'
       },
       env_development: {
         NODE_ENV: 'development',
         PORT: 8443,
+        BOT_NAME: 'vcmsbot',
         DOMEN: 'tele.pepex.kg'
       }
     }

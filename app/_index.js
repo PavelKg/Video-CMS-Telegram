@@ -42,6 +42,7 @@ fastifyApp
   })
 const bots = JSON.parse(BOTS)
 const bot = new Telegraf(bots['vcmstestbot'])
+bot.remove_webhook()
 
 const keyboard = Markup.inlineKeyboard([
   Markup.loginButton('Login', 'kdsjfgjdksf'),
@@ -96,6 +97,3 @@ console.log(`https://${DOMEN}/secretpath`)
 
 bot.telegram.setWebhook(`https://${DOMEN}/secretpath`)
 
-fastifyApp.listen(PORT, '0.0.0.0', () => {
-  console.log(`Example app listening on port ${PORT}!`)
-})
