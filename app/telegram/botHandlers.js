@@ -1,43 +1,32 @@
+const Scene = require('telegraf/scenes/base')
 const Markup = require('telegraf/markup')
 const Extra = require('telegraf/extra')
 
-const keyboard = Markup.inlineKeyboard([
-  Markup.loginButton('Login', 'kdsjfgjdksf'),
-  Markup.urlButton('❤️', 'http://telegraf.js.org'),
-  Markup.callbackButton('Delete', 'delete')
-])
-
-const markup = Markup.inlineKeyboard([
-  Markup.gameButton('🎮 Play now!'),
-  Markup.urlButton('Telegraf help', 'http://telegraf.js.org')
-])
-
 const queue = require('../rabbitmq/queue')
-//const utils = require('../../common/utils')
-//const qMessages = require('../../common/qMessages')
 
 const config = require('.././config')
 const messages = require('./messages')
 
 const start = async (ctx) => {
+  const token = ctx.startPayload
+  if (token === '') {
+    return
+  }
   try {
-    const chatId = ctx.from.id
-    const firstName = ctx.from.first_name
-    const lastName = ctx.from.last_name
+    const {
+      first_name = '',
+      last_name = '',
+      username = '',
+      id: chatId
+    } = ctx.from
 
-    const message = '' // `${qMessages.notificationCreated}/${chatId}`
-    //await queue.publish(config.notificationsChangesQueue, 'fanout', message)
-    //ctx.reply(messages.start)
-    ctx.reply(
-      `Hello ${ctx.from.first_name}, would you like to know the love compatibility?`,
-      Markup.inlineKeyboard([
-        Markup.callbackButton('Love Calculate', 'LOVE_CALCULATE'),
-        Markup.urlButton('❤️', 'http://telegraf.js.org'),
-        Markup.callbackButton('Delete', 'delete'),
-        //Markup.gameButton('🎮 Play now!'),
-        Markup.urlButton('Telegraf help', 'http://telegraf.js.org')
-      ]).extra()
-    )
+    const message = {
+      type: 'deeplink',
+      chatId,
+      content: {first_name, last_name, username, token}
+    }
+    queue.produce(config.produceQueue, JSON.stringify(message))
+    ctx.reply(messages.start_and_token)
   } catch (error) {
     console.error(error)
     ctx.reply('ERROR')
@@ -51,6 +40,15 @@ const help = (ctx) => {
     JSON.stringify({user_id: 1, message: 'aaa'})
   )
   ctx.reply(messages.help)
+}
+
+const register = (ctx) => {
+  console.log('register user stage')
+  // queue.produce(
+  //   config.produceQueue,
+  //   JSON.stringify({user_id: 1, message: 'aaa'})
+  // )
+  ctx.reply(messages.register)
 }
 
 const messageHandler = async (payload) => {
@@ -67,65 +65,11 @@ const messageHandler = async (payload) => {
   return result
 }
 
-// const url = async ctx => {
-//   try {
-//     const chatId = ctx.from.id
-//     if ( await isNotificationNotExists(chatId, ctx) ) {
-//       return
-//     }
-//     const url = (ctx.update.message.text || '').split(' ')[1]
-
-//     if (!utils.isUrl(url)) {
-//       ctx.reply(messages.invalidUrl)
-//       return
-//     }
-//     await Notification.findOneAndUpdate({chatId}, {$set: {url}})
-//     const message = `${qMessages.urlChanged}/${chatId}`
-//     await queue.publish(config.notificationsChangesQueue, 'fanout', message)
-//     ctx.reply(messages.url)
-//   } catch (error) {
-//     console.error(error)
-//     ctx.reply('ERROR')
-//   }
-// }
-
-// const selector = async ctx => {
-//   try {
-//     const chatId = ctx.from.id
-//     if ( await isNotificationNotExists(chatId, ctx) ) {
-//       return
-//     }
-//     const selector = (ctx.update.message.text || '').split(' ')[1]
-//     await Notification.findOneAndUpdate({chatId}, {$set: {selector}})
-//     const message = `${qMessages.selectorChanged}/${chatId}`
-//     await queue.publish(config.notificationsChangesQueue, 'fanout', message)
-//     ctx.reply(messages.selector)
-//   } catch (error) {
-//     console.error(error)
-//     ctx.reply('ERROR')
-//   }
-// }
-
-// const stop = async ctx => {
-//   try {
-//     const chatId = ctx.from.id
-//     if ( await isNotificationNotExists(chatId, ctx) ) {
-//       return
-//     }
-//     await Notification.findOneAndDelete({chatId})
-//     const message = `${qMessages.notificationRemoved}/${chatId}`
-//     await queue.publish(config.notificationsChangesQueue, 'fanout', message)
-//     ctx.reply(messages.stop)
-//   } catch (error) {
-//     console.error(error)
-//     ctx.reply('ERROR')
-//   }
-// }
-
 module.exports = {
   start,
   help,
-  messageHandler
+  messageHandler,
+  register
   //url,
   //selector,
   //stop

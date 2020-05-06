@@ -8,16 +8,21 @@ const keyboard = Markup.inlineKeyboard([
   Markup.callbackButton('🔍 Search', 'search')
 ]).extra()
 
-const start = `
-Welcome!
-Please add url and query selector to start.
-Send /help for info.
-`
+const start_and_token = `Please wait. We are checking your information...`
+const start = ''
 
 const help = `
-/start to Registration
-/login to send notification to the email
-/videolist to get video-list`
+/start to Get Menu
+/register to Registration`
+
+const register = `
+Thank you! 
+Please check your email. 
+We have sent the registation information.`
+
+const requestEmail = `
+Please enter your email for instruction or 
+*/quit* for exit.`
 
 const url = `
 URL configured.
@@ -63,6 +68,7 @@ const welcome = (payload) => {
 
 module.exports = {
   start,
+  start_and_token,
   help,
   url,
   selector,
@@ -72,5 +78,7 @@ module.exports = {
   fetchError,
   changeDetected,
   invalidUrl,
-  welcome
+  welcome,
+  register,
+  requestEmail
 }

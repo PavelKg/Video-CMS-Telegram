@@ -5,11 +5,22 @@ const crypto = require('crypto')
 const Telegraf = require('telegraf')
 const Markup = require('telegraf/markup')
 const Extra = require('telegraf/extra')
-
+const Stage = require('telegraf/stage')
+const session = require('telegraf/session')
+const {
+  greeterScene,
+  echoScene,
+  registerScene
+} = require('./app/telegram/scenes')
 const config = require('./app/config')
 const queue = require('./app/rabbitmq/queue')
 
-const {start, help, messageHandler} = require('./app/telegram/botHandlers')
+const {
+  start,
+  help,
+  messageHandler,
+  register
+} = require('./app/telegram/botHandlers')
 
 // secretpath generate
 const current_date = new Date().valueOf().toString()
@@ -35,10 +46,17 @@ const bot = new Telegraf(config.botList[config.botName])
 
 bot.telegram.setWebhook(`https://${config.domen}/${secretpath}`)
 bot.telegram.setMyCommands([
-  {command: 'videolist', description: 'Command Description'}
+  {command: 'videolist', description: 'Command Description'},
+  {command: 'register', description: 'Command Description'}
 ])
 bot.start(start)
 bot.help(help)
+
+const stage = new Stage([registerScene])
+bot.use(session())
+bot.use(stage.middleware())
+bot.command('register', (ctx) => ctx.scene.enter('register'))
+bot.on('message', (ctx) => ctx.reply('Try /start or /help'))
 
 fastify.use(bot.webhookCallback(`/${secretpath}`))
 
