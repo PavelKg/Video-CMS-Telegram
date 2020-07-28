@@ -5,10 +5,11 @@
   "main": "index.js",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "fastify": "^2.13.0",
+    "fastify": "^3.1.1",
     "fastify-amqp": "^0.3.0",
     "fastify-cors": "^3.0.3",
-    "telegraf": "^3.37.0"
+    "telegraf": "^3.37.0",
+    "telegraf-i18n": "^6.6.0"
   },
   "devDependencies": {},
   "scripts": {

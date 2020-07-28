@@ -2,57 +2,30 @@ const Scene = require('telegraf/scenes/base')
 const Markup = require('telegraf/markup')
 const Extra = require('telegraf/extra')
 
-const queue = require('../rabbitmq/queue')
-
 const config = require('.././config')
 const messages = require('./messages')
 
-const start = async (ctx) => {
-  const token = ctx.startPayload
-  if (token === '') {
-    return
-  }
-  try {
-    const {
-      first_name = '',
-      last_name = '',
-      username = '',
-      id: chatId
-    } = ctx.from
-
-    const message = {
-      type: 'deeplink',
-      chatId,
-      content: {first_name, last_name, username, token}
-    }
-    queue.produce(config.produceQueue, JSON.stringify(message))
-    ctx.reply(messages.start_and_token)
-  } catch (error) {
-    console.error(error)
-    ctx.reply('ERROR')
-  }
-}
-
 const help = (ctx) => {
-  console.log('recive help from telegram')
-  queue.produce(
-    config.produceQueue,
-    JSON.stringify({user_id: 1, message: 'aaa'})
+  // ctx.rabbit.produce(
+  //   config.produceQueue,
+  //   JSON.stringify({user_id: 1, message: 'help'})
+  // )
+  ctx.reply('https://www.youtube.com/watch?v=4NLfJqCnpHA')
+  ctx.reply(
+    'https://www.google.com/imgres?imgurl=https%3A%2F%2Fmiro.medium.com%2Fmax%2F1200%2F1*mk1-6aYaf_Bes1E3Imhc0A.jpeg&imgrefurl=https%3A%2F%2Ftowardsdatascience.com%2F3-numpy-image-transformations-on-baby-yoda-c27c1409b411&tbnid=gOUAFhrbQ2nYQM&vet=12ahUKEwiW1tT51O3qAhXVBXcKHQi5CzkQMygAegUIARCkAQ..i&docid=OXvyXJop1qSGqM&w=1200&h=900&q=image&safe=active&ved=2ahUKEwiW1tT51O3qAhXVBXcKHQi5CzkQMygAegUIARCkAQ'
   )
-  ctx.reply(messages.help)
 }
 
 const register = (ctx) => {
-  console.log('register user stage')
-  // queue.produce(
-  //   config.produceQueue,
-  //   JSON.stringify({user_id: 1, message: 'aaa'})
-  // )
+  ctx.rabbit.produce(
+    config.produceQueue,
+    JSON.stringify({user_id: 1, message: 'aaa'})
+  )
   ctx.reply(messages.register)
 }
 
 const messageHandler = async (payload) => {
-  const {queue, type, content} = payload
+  const {type, content} = payload
   let result
   switch (type) {
     case 'welcome':
@@ -66,7 +39,7 @@ const messageHandler = async (payload) => {
 }
 
 module.exports = {
-  start,
+  //start,
   help,
   messageHandler,
   register

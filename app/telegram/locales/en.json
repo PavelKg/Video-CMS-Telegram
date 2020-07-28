@@ -1,0 +1,45 @@
+{
+  "keyboards": {
+    "back_keyboard": {
+      "back": "◀️ Back"
+    },
+    "main_keyboard": {
+      "search": "👀 Поиск",
+      "movies": "🎥 Моя коллекция",
+      "settings": "⚙️ Settings",
+      "about": "❓ Обо мне",
+      "support": "💰 Поддержать",
+      "contact": "✍️ Contact"
+    }
+  },
+  "scenes": {
+    "start": {
+      "welcome_back": "\"Nice to see you back!\""
+    },
+    "settings": {
+      "what_to_change": "What do you want to change?",
+      "language_button": "🗣 Language",
+      "account_summary_button": "🔑 Account summary",
+      "back_button": "◀️ Back",
+      "settings": "Settings",
+      "pick_language": "Pick language",
+      "language_changed": "Language has been changed!",
+      "account_summary": "Your account summary:\n\nVersion: ${version}\nUsername: ${username}\nID: ${id}"
+    },
+    "contact": {
+      "write_to_the_admin": "Write to the admin",
+      "message_delivered": "Message sent"
+    },
+    "register": {
+      "requestEmail": "Please enter your email for instruction or  * /quit * for exit.",
+      "info": "Thank you!  Please check your email.  We have sent the registation information."
+    }
+  },
+  "shared": {
+    "something_went_wrong": "Something went wrong",
+    "command_not found": "Command not found",
+    "what_next": "What next ?",
+    "help": "/start to Get Menu\n /register to Registration",
+    "command_not_found": "Command not found. Try /start or /help."
+  }
+}
