@@ -26,8 +26,13 @@ async function initTelegramBot(fastify) {
   const botSettings = config.botList[config.botName]
   const webHookPath = `https://${config.domen}/${secretpath}`
 
-  const bot = new Telegraf(botSettings)
-  bot.telegram.setWebhook(webHookPath)
+  const isModePolling = process.env.MODE
+  const bot = new Telegraf(botSettings, {polling: isModePolling})
+  if (!isModePolling) {
+    bot.telegram.setWebhook(webHookPath)
+  } else {
+    bot.launch()
+  }
 
   fastify.decorate(`telebot`, bot)
   console.log(`TeleBot ${config.botName} activated.`)
