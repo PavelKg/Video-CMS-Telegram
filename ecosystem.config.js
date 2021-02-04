@@ -13,7 +13,7 @@ module.exports = {
         NODE_ENV: 'local',
         PORT: 8443,
         BOT_NAME: 'vcmstestbot',
-        DOMEN: 'binas79.synology.me:8443'
+        DOMEN: 'botkg.ga'
       },
       env_production: {
         NODE_ENV: 'production',

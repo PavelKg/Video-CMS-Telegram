@@ -1,10 +1,18 @@
 'use strict'
 /* global require */
 // Require the framework
+const fs = require('fs')
+const https = {
+  key: fs.readFileSync('ssl_keys/privkey.pem'),
+  cert: fs.readFileSync('ssl_keys/fullchain.pem')
+}
+const add_opt = process.env.NODE_ENV === 'local' ? {https} : {}
+
 const fastify = require('fastify')({
   logger: true,
   ignoreTrailingSlash: true,
-  bodyLimit: 7291456
+  bodyLimit: 7291456,
+  ...add_opt
 })
 
 const app = require('./app')
