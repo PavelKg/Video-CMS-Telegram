@@ -13,7 +13,6 @@ module.exports = async function (fastify, opts) {
     }
   }
   async function messHandler(req, reply) {
-    console.log('aaaaaaaaaaaa')
     await this.telegramService.handleUpdate(req, reply)
     reply.code(200).send()
   }
