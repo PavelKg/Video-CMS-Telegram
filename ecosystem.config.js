@@ -3,17 +3,18 @@ module.exports = {
     {
       name: 'Video-CMS-Telegram',
       script: 'server.js',
-      env: {
+      env_emphy: {
         NODE_ENV: 'emphy',
         PORT: 8443,
         BOT_NAME: 'vcmsbot',
-        DOMEN: 'tele.pepex.kg'
+        DOMEN: 'tele.pepex.kg',
+        MODE:'polling'
       },
       env_local: {
         NODE_ENV: 'local',
         PORT: 8443,
         BOT_NAME: 'vcmstestbot',
-        DOMEN: 'botkg.ga'
+        DOMEN: 'botkg.ga' 
       },
       env_production: {
         NODE_ENV: 'production',
@@ -47,6 +48,7 @@ module.exports = {
       path: '~/services/videocms-telegram',
       'post-deploy':
         'npm i &&  pm2 startOrRestart ecosystem.config.js --env development'
-    }
+    },
+
   }
 }
