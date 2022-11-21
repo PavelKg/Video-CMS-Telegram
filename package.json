@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "fastify": "^3.1.1",
+    "fastify": "^3.29.4",
     "fastify-amqp": "^0.3.0",
     "fastify-cors": "^3.0.3",
     "telegraf": "^3.37.0",
